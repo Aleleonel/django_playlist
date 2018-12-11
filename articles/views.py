@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Articles
+from django.contrib.auth.decorators import login_required
 
 def article_list(request):
     articles = Articles.objects.all().order_by('date')    
@@ -12,5 +13,7 @@ def article_detail(request, slug):
    article = Articles.objects.get(slug=slug)
    return render(request, 'articles/detailpage.html', {'article':article})
 
+@login_required(login_url="/accounts/login/")
+def article_create(request):
 
-
+    return render(request, 'articles/article_create.html')
